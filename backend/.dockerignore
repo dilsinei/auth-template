@@ -1,0 +1,21 @@
+# === BACKEND .dockerignore ===
+# Copie este conteúdo para: backend/.dockerignore
+
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+.env.local
+README.md
+.DS_Store
+.vscode
+.idea
+*.swp
+*.swo
+.eslintrc
+.prettierrc
+dist
+build
+coverage
+*.log

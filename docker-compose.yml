@@ -1,0 +1,70 @@
+### docker-compose.yml
+services:
+    # ===== BANCO DE DADOS =====
+    postgres:
+        image: postgres:16-alpine
+        container_name: login_postgres
+        environment:
+            POSTGRES_DB: login_db
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres123
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        networks:
+            - login_network
+
+    # ===== BACKEND =====
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        container_name: login_backend
+        environment:
+            NODE_ENV: production
+            PORT: 3000
+            DB_HOST: postgres
+            DB_PORT: 5432
+            DB_NAME: login_db
+            DB_USER: postgres
+            DB_PASSWORD: postgres123
+            JWT_SECRET: 8xK3mP9qR2sT5vW7yZ1aB4cD6eF8gH0j
+            JWT_REFRESH_SECRET: 8xK3mP9qR2sT5vW7yZ1aB4cD6eF8gH0j
+            FRONTEND_URL: http://localhost:5173
+        ports:
+            - "3000:3000"
+        depends_on:
+            postgres:
+                condition: service_healthy
+        volumes:
+            - ./backend/src:/app/src
+        networks:
+            - login_network
+
+    # ===== FRONTEND =====
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        container_name: login_frontend
+        ports:
+            - "5173:80"
+        depends_on:
+            - backend
+        networks:
+            - login_network
+
+volumes:
+    postgres_data:
+
+networks:
+    login_network:
+        driver: bridge
+#####################################################################
+

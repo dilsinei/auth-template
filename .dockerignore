@@ -1,0 +1,23 @@
+# === FRONTEND .dockerignore ===
+# Copie este conteúdo para: frontend/.dockerignore
+
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+.env.local
+README.md
+.DS_Store
+.vscode
+.idea
+*.swp
+*.swo
+dist (durante build, antes de ser usado)
+coverage
+*.log
+.eslintrc
+.prettierrc
+src
+public (exceto index.html)
+vite.config.js (referência local)
