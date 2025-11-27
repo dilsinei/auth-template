@@ -4,10 +4,20 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
+// Páginas públicas
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
+// Páginas protegidas
 import Dashboard from "./pages/Dashboard";
+
+// Páginas admin
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import UsersManagement from "./pages/admin/UsersManagement";
+import InviteCodes from "./pages/admin/InviteCodes";
+import ActivityLogs from "./pages/admin/ActivityLogs";
 
 function App() {
     return (
@@ -21,13 +31,50 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
-                    {/* Rotas protegidas */}
+                    {/* Rotas protegidas (usuário normal) */}
                     <Route
                         path="/dashboard"
                         element={
                             <ProtectedRoute>
                                 <Dashboard />
                             </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Rotas admin (requer role admin) */}
+                    <Route
+                        path="/admin"
+                        element={
+                            <AdminRoute>
+                                <AdminDashboard />
+                            </AdminRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/users"
+                        element={
+                            <AdminRoute>
+                                <UsersManagement />
+                            </AdminRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/invite-codes"
+                        element={
+                            <AdminRoute>
+                                <InviteCodes />
+                            </AdminRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/logs"
+                        element={
+                            <AdminRoute>
+                                <ActivityLogs />
+                            </AdminRoute>
                         }
                     />
 

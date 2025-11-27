@@ -1,5 +1,5 @@
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Dashboard() {
     const { user, logout } = useAuth();
@@ -16,16 +16,27 @@ export default function Dashboard() {
             <header className="bg-white shadow">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center">
                     <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-                    <button
-                        onClick={handleLogout}
-                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
-                    >
-                        Sair
-                    </button>
+                    <div className="flex items-center space-x-4">
+                        {/* ✅ Mostrar botão Admin se for admin */}
+                        {user?.role === "admin" && (
+                            <Link
+                                to="/admin"
+                                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                            >
+                                👑 Painel Admin
+                            </Link>
+                        )}
+                        <button
+                            onClick={handleLogout}
+                            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                        >
+                            Sair
+                        </button>
+                    </div>
                 </div>
             </header>
 
-            {/* Content */}
+            {/* Resto do conteúdo... */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Welcome Card */}
                 <div className="bg-white rounded-lg shadow p-6 mb-6">
@@ -34,7 +45,10 @@ export default function Dashboard() {
                         Email: <span className="font-medium">{user?.email}</span>
                     </p>
                     <p className="text-gray-600">
-                        ID: <span className="font-medium">{user?.id}</span>
+                        Role:{" "}
+                        <span className={`font-medium ${user?.role === "admin" ? "text-red-600" : "text-blue-600"}`}>
+                            {user?.role === "admin" ? "👑 Administrador" : "👤 Usuário"}
+                        </span>
                     </p>
                 </div>
 
@@ -64,10 +78,10 @@ export default function Dashboard() {
                     <ul className="space-y-2 text-gray-600">
                         <li>✅ JWT com Access + Refresh Tokens</li>
                         <li>✅ Proteção contra Brute Force</li>
-                        <li>✅ Validação de senha forte</li>
-                        <li>✅ Sanitização de inputs</li>
-                        <li>✅ Refresh automático de token</li>
-                        <li>✅ Logout seguro</li>
+                        <li>✅ Sistema de Roles (Admin/User)</li>
+                        <li>✅ Códigos de convite</li>
+                        <li>✅ Logs de auditoria</li>
+                        <li>✅ Painel administrativo completo</li>
                     </ul>
                 </div>
             </main>

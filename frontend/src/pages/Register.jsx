@@ -7,6 +7,7 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [inviteCode, setInviteCode] = useState(""); // ✅ NOVO
     const [isLoading, setIsLoading] = useState(false);
 
     const { register } = useAuth();
@@ -15,14 +16,13 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validar senhas
         if (password !== confirmPassword) {
             alert("As senhas não coincidem");
             return;
         }
 
         setIsLoading(true);
-        const result = await register(name, email, password);
+        const result = await register(name, email, password, inviteCode); // ✅ Passar inviteCode
 
         if (result.success) {
             navigate("/dashboard");
@@ -42,6 +42,24 @@ export default function Register() {
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-5">
+                    {/* ✅ CÓDIGO DE CONVITE (PRIMEIRO CAMPO) */}
+                    <div>
+                        <label htmlFor="inviteCode" className="block text-sm font-medium text-gray-700 mb-2">
+                            Código de Convite *
+                        </label>
+                        <input
+                            id="inviteCode"
+                            type="text"
+                            value={inviteCode}
+                            onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+                            required
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition uppercase"
+                            placeholder="Ex: EMPRESA2024"
+                            disabled={isLoading}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Solicite um código ao administrador</p>
+                    </div>
+
                     {/* Name */}
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">

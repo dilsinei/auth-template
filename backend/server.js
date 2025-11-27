@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import initializeDatabase from "./src/utils/initDb.js";
 import authRoutes from "./src/routes/authRoutes.js";
+import adminRoutes from "./src/routes/adminRoutes.js";
 
 dotenv.config();
 
@@ -45,6 +46,9 @@ app.get("/api", (req, res) => {
 
 // ===== ROTAS DE AUTENTICAÇÃO =====
 app.use("/auth", authRoutes);
+
+// ===== ROTAS DE ADMIN =====
+app.use("/admin", adminRoutes);
 
 // 404 Handler
 app.use((req, res) => {

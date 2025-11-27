@@ -29,7 +29,13 @@ export const verifyToken = (req, res, next) => {
 
         // Verificar assinatura do token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // Adiciona dados do usuário ao request
+
+        // ✅ Adicionar role ao req.user
+        req.user = {
+            userId: decoded.userId,
+            email: decoded.email,
+            role: decoded.role, // ← Adicionar role
+        };
         next();
     } catch (error) {
         if (error.name === "TokenExpiredError") {

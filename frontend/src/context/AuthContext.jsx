@@ -58,12 +58,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Registro
-    const register = async (name, email, password) => {
+    const register = async (name, email, password, inviteCode) => {
         try {
             const { data } = await api.post("/auth/register", {
                 name,
                 email,
                 password,
+                inviteCode,
             });
 
             const { user, tokens } = data.data;
